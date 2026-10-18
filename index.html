@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KRYSCHANGE — Конвертер валют</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 10% 20%,
+            rgba(112, 65, 255, 0.35),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(0, 190, 255, 0.25),
+            transparent 35%
+        ),
+
+        #080a12;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 25px;
+
+}
+
+
+.app {
+
+    width: 100%;
+
+    max-width: 520px;
+
+}
+
+
+.logo {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.logo-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: auto;
+
+    margin-bottom: 12px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7657ff,
+            #00c9ff
+        );
+
+    font-size: 30px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(80, 90, 255, 0.4);
+
+}
+
+
+.logo h1 {
+
+    font-size: 32px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.logo p {
+
+    color: #9298aa;
+
+    margin-top: 7px;
+
+    font-size: 14px;
+
+}
+
+
+.converter {
+
+    background:
+        rgba(255,255,255,0.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    backdrop-filter:
+        blur(20px);
+
+    border-radius: 28px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,0.4);
+
+}
+
+
+.label {
+
+    color: #969cad;
+
+    font-size: 13px;
+
+    margin-bottom: 9px;
+
+}
+
+
+.currency-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    background:
+        rgba(0,0,0,0.25);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    border-radius: 18px;
+
+    padding: 14px;
+
+    transition: 0.25s;
+
+}
+
+
+.currency-box:focus-within {
+
+    border-color: #7657ff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(118,87,255,0.12);
+
+}
+
+
+.currency-box input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    color: white;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+
+.currency-box select {
+
+    background: #171a28;
+
+    color: white;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    border-radius: 12px;
+
+    padding: 10px 7px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+
+.currency-box select option {
+
+    background: #171a28;
+
+    color: white;
+
+}
+
+
+.swap-area {
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.swap {
+
+    width: 47px;
+
+    height: 47px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7657ff,
+            #00c9ff
+        );
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 8px 25px
+        rgba(90,70,255,0.35);
+
+}
+
+
+.swap:hover {
+
+    transform:
+        rotate(180deg)
+        scale(1.08);
+
+}
+
+
+.result-box {
+
+    margin-top: 22px;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(118,87,255,0.2),
+            rgba(0,201,255,0.08)
+        );
+
+    border:
+        1px solid
+        rgba(118,87,255,0.22);
+
+}
+
+
+.result-small {
+
+    color: #999fb1;
+
+    font-size: 13px;
+
+}
+
+
+.result {
+
+    margin-top: 7px;
+
+    font-size: 27px;
+
+    font-weight: bold;
+
+    word-break: break-word;
+
+}
+
+
+.rate {
+
+    margin-top: 8px;
+
+    color: #a4aabc;
+
+    font-size: 13px;
+
+}
+
+
+.quick-title {
+
+    color: #979dad;
+
+    font-size: 13px;
+
+    margin-top: 22px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.quick {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+.quick button {
+
+    flex: 1;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    background:
+        rgba(255,255,255,0.05);
+
+    color: #dfe1ed;
+
+    padding: 10px 5px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.quick button:hover {
+
+    background:
+        rgba(118,87,255,0.25);
+
+    border-color:
+        #7657ff;
+
+}
+
+
+.status {
+
+    text-align: center;
+
+    color: #757b8d;
+
+    font-size: 12px;
+
+    margin-top: 18px;
+
+}
+
+
+.online {
+
+    display: inline-block;
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #36df89;
+
+    box-shadow:
+        0 0 10px #36df89;
+
+    margin-right: 5px;
+
+}
+
+
+.error {
+
+    color: #ff7788;
+
+}
+
+
+@media (max-width: 500px) {
+
+    body {
+
+        padding: 15px;
+
+    }
+
+
+    .converter {
+
+        padding: 18px;
+
+        border-radius: 23px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    .currency-box input {
+
+        font-size: 20px;
+
+    }
+
+
+    .currency-box select {
+
+        font-size: 12px;
+
+    }
+
+
+    .result {
+
+        font-size: 22px;
+
+    }
+
+
+    .quick button {
+
+        font-size: 12px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <div class="logo">
+
+
+        <div class="logo-icon">
+
+            ⇄
+
+        </div>
+
+
+        <h1>
+
+            KRYSCHANGE
+
+        </h1>
+
+
+        <p>
+
+            Онлайн-конвертер валют
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="converter">
+
+
+        <div class="label">
+
+            Я маю
+
+        </div>
+
+
+        <div class="currency-box">
+
+
+            <input
+
+                type="number"
+
+                id="amount"
+
+                value="1000"
+
+                min="0"
+
+                step="any"
+
+            >
+
+
+            <select id="fromCurrency">
+
+
+                <option value="UAH">
+
+                    🇺🇦 UAH
+
+                </option>
+
+
+                <option value="USD">
+
+                    🇺🇸 USD
+
+                </option>
+
+
+                <option value="EUR">
+
+                    🇪🇺 EUR
+
+                </option>
+
+
+                <option value="GBP">
+
+                    🇬🇧 GBP
+
+                </option>
+
+
+                <option value="PLN">
+
+                    🇵🇱 PLN
+
+                </option>
+
+
+                <option value="CZK">
+
+                    🇨🇿 CZK
+
+                </option>
+
+
+                <option value="CHF">
+
+                    🇨🇭 CHF
+
+                </option>
+
+
+                <option value="CAD">
+
+                    🇨🇦 CAD
+
+                </option>
+
+
+                <option value="JPY">
+
+                    🇯🇵 JPY
+
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+
+        <div class="swap-area">
+
+
+            <button
+                class="swap"
+                id="swapButton"
+                title="Поміняти валюти"
+            >
+
+                ⇅
+
+            </button>
+
+
+        </div>
+
+
+
+        <div class="label">
+
+            Я отримаю
+
+        </div>
+
+
+        <div class="currency-box">
+
+
+            <input
+
+                type="text"
+
+                id="converted"
+
+                value="..."
+
+                readonly
+
+            >
+
+
+            <select id="toCurrency">
+
+
+                <option value="USD">
+
+                    🇺🇸 USD
+
+                </option>
+
+
+                <option value="EUR">
+
+                    🇪🇺 EUR
+
+                </option>
+
+
+                <option value="UAH">
+
+                    🇺🇦 UAH
+
+                </option>
+
+
+                <option value="GBP">
+
+                    🇬🇧 GBP
+
+                </option>
+
+
+                <option value="PLN">
+
+                    🇵🇱 PLN
+
+                </option>
+
+
+                <option value="CZK">
+
+                    🇨🇿 CZK
+
+                </option>
+
+
+                <option value="CHF">
+
+                    🇨🇭 CHF
+
+                </option>
+
+
+                <option value="CAD">
+
+                    🇨🇦 CAD
+
+                </option>
+
+
+                <option value="JPY">
+
+                    🇯🇵 JPY
+
+                </option>
+
+
+            </select>
+
+
+        </div>
+
+
+
+        <div class="result-box">
+
+
+            <div class="result-small">
+
+                Результат
+
+            </div>
+
+
+            <div
+                class="result"
+                id="bigResult"
+            >
+
+                Завантаження...
+
+            </div>
+
+
+            <div
+                class="rate"
+                id="rateText"
+            >
+
+                Отримуємо актуальний курс...
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="quick-title">
+
+            Швидкий вибір
+
+        </div>
+
+
+        <div class="quick">
+
+
+            <button onclick="setAmount(100)">
+
+                100
+
+            </button>
+
+
+            <button onclick="setAmount(500)">
+
+                500
+
+            </button>
+
+
+            <button onclick="setAmount(1000)">
+
+                1 000
+
+            </button>
+
+
+            <button onclick="setAmount(5000)">
+
+                5 000
+
+            </button>
+
+
+        </div>
+
+
+
+        <div
+            class="status"
+            id="status"
+        >
+
+            <span class="online"></span>
+
+            Онлайн-курс валют
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================
+   ПОЛУЧАЕМ ЭЛЕМЕНТЫ
+===================================== */
+
+
+const amount =
+    document.getElementById("amount");
+
+
+const fromCurrency =
+    document.getElementById("fromCurrency");
+
+
+const toCurrency =
+    document.getElementById("toCurrency");
+
+
+const converted =
+    document.getElementById("converted");
+
+
+const bigResult =
+    document.getElementById("bigResult");
+
+
+const rateText =
+    document.getElementById("rateText");
+
+
+const status =
+    document.getElementById("status");
+
+
+const swapButton =
+    document.getElementById("swapButton");
+
+
+
+/* =====================================
+   ФОРМАТИРОВАНИЕ
+===================================== */
+
+
+function formatNumber(number) {
+
+    return new Intl.NumberFormat(
+
+        "uk-UA",
+
+        {
+            maximumFractionDigits: 2
+        }
+
+    ).format(number);
+
+}
+
+
+function formatRate(number) {
+
+    return new Intl.NumberFormat(
+
+        "uk-UA",
+
+        {
+            maximumFractionDigits: 4
+        }
+
+    ).format(number);
+
+}
+
+
+
+/* =====================================
+   КОНВЕРТАЦИЯ
+===================================== */
+
+
+async function convertCurrency() {
+
+
+    const money =
+        parseFloat(amount.value);
+
+
+    const from =
+        fromCurrency.value;
+
+
+    const to =
+        toCurrency.value;
+
+
+
+    if (
+        isNaN(money) ||
+        money < 0
+    ) {
+
+        converted.value = "";
+
+        bigResult.innerText =
+            "Введіть суму";
+
+        rateText.innerText =
+            "";
+
+        return;
+
+    }
+
+
+
+    /* Одинаковые валюты */
+
+
+    if (from === to) {
+
+
+        converted.value =
+            formatNumber(money);
+
+
+        bigResult.innerText =
+
+            `${formatNumber(money)} ${to}`;
+
+
+        rateText.innerText =
+
+            `1 ${from} = 1 ${to}`;
+
+
+        status.innerHTML =
+
+            `<span class="online"></span>
+             Готово`;
+
+
+        return;
+
+    }
+
+
+
+    try {
+
+
+        status.innerHTML =
+            "Отримуємо актуальний курс...";
+
+
+
+        /*
+        Получаем данные курса.
+        API работает без API-ключа.
+        */
+
+
+        const url =
+
+            `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${from.toLowerCase()}.json`;
+
+
+        const response =
+            await fetch(url);
+
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Помилка API"
+            );
+
+        }
+
+
+
+        const data =
+            await response.json();
+
+
+
+        /*
+        Получаем курс выбранной валюты
+        */
+
+
+        const rate =
+
+            data[from.toLowerCase()]
+                [to.toLowerCase()];
+
+
+
+        if (
+            rate === undefined
+        ) {
+
+            throw new Error(
+                "Валюта не підтримується"
+            );
+
+        }
+
+
+
+        /*
+        Считаем результат
+        */
+
+
+        const result =
+            money * rate;
+
+
+
+        /*
+        Показываем результат
+        */
+
+
+        converted.value =
+            formatNumber(result);
+
+
+        bigResult.innerText =
+
+            `${formatNumber(money)}
+             ${from}
+             =
+             ${formatNumber(result)}
+             ${to}`;
+
+
+        rateText.innerText =
+
+            `1 ${from} =
+             ${formatRate(rate)}
+             ${to}`;
+
+
+
+        /*
+        Показываем дату
+        */
+
+
+        let dateText = "";
+
+
+        if (data.date) {
+
+            dateText =
+                ` • ${data.date}`;
+
+        }
+
+
+
+        status.innerHTML =
+
+            `<span class="online"></span>
+             Курс оновлено${dateText}`;
+
+
+    }
+
+
+    catch(error) {
+
+
+        console.error(error);
+
+
+        converted.value =
+            "Помилка";
+
+
+        bigResult.innerText =
+            "Не вдалося отримати курс";
+
+
+        rateText.innerText =
+            "Перевірте підключення до інтернету";
+
+
+        status.innerHTML =
+
+            `<span class="error">
+                ● Помилка завантаження
+             </span>`;
+
+    }
+
+}
+
+
+
+/* =====================================
+   БЫСТРЫЕ СУММЫ
+===================================== */
+
+
+function setAmount(value) {
+
+    amount.value = value;
+
+    convertCurrency();
+
+}
+
+
+
+/* =====================================
+   КНОПКА ОБМЕНА ⇅
+===================================== */
+
+
+swapButton.addEventListener(
+
+    "click",
+
+    function() {
+
+
+        const oldFrom =
+            fromCurrency.value;
+
+
+        fromCurrency.value =
+            toCurrency.value;
+
+
+        toCurrency.value =
+            oldFrom;
+
+
+        convertCurrency();
+
+    }
+
+);
+
+
+
+/* =====================================
+   ИЗМЕНЕНИЕ СУММЫ
+===================================== */
+
+
+amount.addEventListener(
+
+    "input",
+
+    convertCurrency
+
+);
+
+
+
+/* =====================================
+   ИЗМЕНЕНИЕ ВАЛЮТЫ
+===================================== */
+
+
+fromCurrency.addEventListener(
+
+    "change",
+
+    convertCurrency
+
+);
+
+
+toCurrency.addEventListener(
+
+    "change",
+
+    convertCurrency
+
+);
+
+
+
+/* =====================================
+   ПЕРВЫЙ ЗАПУСК
+===================================== */
+
+
+convertCurrency();
+
+
+</script>
+
+
+</body>
+
+</html>
